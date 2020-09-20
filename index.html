@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>COVID-19 Corona Tracker</title>
+  <meta content="" name="descriptison">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/logo.png" rel="icon">
+  <link href="assets/img/logo.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: ComingSoon - v2.1.0
+  * Template URL: https://bootstrapmade.com/comingsoon-free-html-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="d-flex align-items-center">
+    <div class="container d-flex flex-column align-items-center">
+
+      <h1><span class="text-danger">Corona</span> Tracker</h1>
+      <h2>Review level of <span class="text-danger">Corona</span> in our Gujarat</h2>
+      <div class="countdown d-flex justify-content-center">
+        <div>
+          <h3 id="lblCity"></h3>
+          <h4>Area</h4>
+        </div>
+        <div>
+          <h3 id="lblTotalConfirmed"></h3>
+          <h4>Total Confirmed</h4>
+        </div>
+        <div>
+          <h3 id="lblTotalRecoverds"></h3>
+          <h4>Total Recoverds</h4>
+        </div>
+        <div>
+          <h3 id="lblTotalDeaths"></h3>
+          <h4>Total Deaths</h4>
+        </div>
+      </div>
+    
+      <div class="subscribe">
+        <h4>Search now to get the latest updates!</h4>      
+          <div class="subscribe-form">
+            <!-- <select name="cities" id="txtCity">
+              <option value="Ahmedabad">Volvo</option>
+              <option value="Amreli">Saab</option>
+              <option value="mercedes">Mercedes</option>
+              <option value="audi">Audi</option>
+            </select> -->
+            <input type="text" id="txtCity" placeholder="Enter your city name">
+            <button type="submit" class="btn"><i class="icofont-search"></i> Search</button>
+          </div>
+          <div class="mt-2">
+            <div class="loading">Loading</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Your notification request was sent. Thank you!</div>
+          </div>
+      </div>
+
+      <div class="social-links text-center">
+        <a href="#" class="twitter">Stay home <i  class="text-warning icofont-home"></i> stay safe<i class="text-success icofont-safety"></i></a>
+      </div>
+
+    </div>
+  </header><!-- End #header -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="copyright">
+        &copy;  <strong><span>COVID-19 Corona Tracker</span></strong> - By Milin N. Khalas
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/comingsoon-free-html-bootstrap-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- End #footer -->
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script> 
+  <script src="assets/js/main.js"></script>
+
+  <!-- API call to get data of covid-19 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script>
+$(function fetch () {
+
+$.get('https://api.covid19api.com/summary',  // url
+    function (data) {  // success callback
+       // console.log(data['Countries']);
+
+        $("#lblCity").text(data['Countries'][76]['Country']); 
+        $("#lblTotalConfirmed").text(data['Countries'][76]['TotalConfirmed']); 
+        $("#lblTotalRecoverds").text(data['Countries'][76]['TotalRecovered']); 
+        $("#lblTotalDeaths").text(data['Countries'][76]['TotalDeaths']); 
+    
+    });
+
+    $.get('https://api.covid19india.org/state_district_wise.json',  // url
+    function (data) {  // success callback
+      //  console.log(data['Gujarat']);
+      //  console.log("Ahmedabad", data['Gujarat'].districtData.Ahmedabad);
+        $("button").click(function(){
+
+          var input = $("#txtCity").val();
+      //    console.log("input", input)
+          var selected = {};
+  
+          if(data && data['Gujarat'] && data['Gujarat'].districtData && input) {
+            console.log("Object.keys(data['Gujarat'].districtData)", Object.keys(data['Gujarat'].districtData))
+            for (const [key, value] of Object.entries(data['Gujarat'].districtData)) {
+             // console.log(`${key}: ${value}`);
+              if(key === input) {
+                selected = value;
+              }
+            }
+            
+          }
+          // console.log("selected", selected)
+
+         $("#lblCity").text(input); 
+        $("#lblTotalConfirmed").text(selected.confirmed); 
+        $("#lblTotalRecoverds").text(selected.recovered); 
+        $("#lblTotalDeaths").text(selected.deceased); 
+
+  });
+    });
+
+
+});
+
+
+
+</script>
+</body>
+
+</html>
