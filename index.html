@@ -35,7 +35,6 @@
   <!-- ======= Header ======= -->
   <header id="header" class="d-flex align-items-center">
     <div class="container d-flex flex-column align-items-center">
-
       <h1><span class="text-danger">Corona</span> Tracker</h1>
       <h2 class="text-center" >Review level of <span class="text-danger">Corona</span> in our Gujarat</h2>
       <div class="countdown d-flex justify-content-center">
@@ -125,6 +124,7 @@ $.get('https://api.covid19api.com/summary',  // url
        
         $("button").click(function(){
 
+          var isNull = true;
           var input = $("#txtCity").val();
 
           if(input == ""){
@@ -132,27 +132,28 @@ $.get('https://api.covid19api.com/summary',  // url
             return;
           }
 
-
-      //    console.log("input", input)
           var selected = {};
   
           if(data && data['Gujarat'] && data['Gujarat'].districtData && input) {
-            console.log("Object.keys(data['Gujarat'].districtData)", Object.keys(data['Gujarat'].districtData))
+          //  console.log("Object.keys(data['Gujarat'].districtData)", Object.keys(data['Gujarat'].districtData))
             for (const [key, value] of Object.entries(data['Gujarat'].districtData)) {
              // console.log(`${key}: ${value}`);
               if(key === input) {
                 selected = value;
-              }
-            }
-            
-          }
-          // console.log("selected", selected)
-
-         $("#lblCity").text(input); 
+                isNull = false;
+              }              
+            }            
+          }         
+   
+          if (isNull == true) {
+            alert("Please enter valid city name!");
+    return ;
+  }
+         //console.log("selected", selected)
+        $("#lblCity").text(input); 
         $("#lblTotalConfirmed").text(selected.confirmed); 
         $("#lblTotalRecoverds").text(selected.recovered); 
-        $("#lblTotalDeaths").text(selected.deceased); 
-
+        $("#lblTotalDeaths").text(selected.deceased);                
   });
     });
 
