@@ -127,9 +127,9 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 575px) {
   #header .countdown div {
-    width: 100px;
-    padding: 10px 0;
-    margin: 10px 8px;
+    width: auto;
+    padding: 10px 4px;
+    margin: 10px 5px;
   }
   #header .countdown div h3 {
     font-size: 15px;

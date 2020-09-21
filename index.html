@@ -37,7 +37,7 @@
     <div class="container d-flex flex-column align-items-center">
 
       <h1><span class="text-danger">Corona</span> Tracker</h1>
-      <h2>Review level of <span class="text-danger">Corona</span> in our Gujarat</h2>
+      <h2 class="text-center" >Review level of <span class="text-danger">Corona</span> in our Gujarat</h2>
       <div class="countdown d-flex justify-content-center">
         <div>
           <h3 id="lblCity"></h3>
@@ -127,9 +127,17 @@ $.get('https://api.covid19api.com/summary',  // url
     function (data) {  // success callback
       //  console.log(data['Gujarat']);
       //  console.log("Ahmedabad", data['Gujarat'].districtData.Ahmedabad);
+       
         $("button").click(function(){
 
           var input = $("#txtCity").val();
+
+          if(input == ""){
+            alert("Please enter your city!");
+            return;
+          }
+
+
       //    console.log("input", input)
           var selected = {};
   
